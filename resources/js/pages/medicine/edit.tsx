@@ -4,48 +4,51 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import AppLayout from "@/layouts/app-layout";
 import { BreadcrumbItem } from "@/types";
+import { Transition } from "@headlessui/react";
 import { Head, useForm } from "@inertiajs/react";
 import { FormEventHandler } from "react";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: "Add Medicine",
-        href: "/medicines/create",
+        title: "Edit Medicine",
+        href: "/medicines/edit",
     },
 ];
 
 type MedicineForm = {
+    id: number;
     name: string;
     description: string;
     dosage: string;
     manufacturer: string;
-    exp_date: string;
+    expiry_date: string; // Use string for date input
     price: number;
     stock_quantity: number;
     category: string;
-    image: File | null;
+    // image_path: string | null;
     is_active: boolean;
 };
 
-export default function AddMedicine() {
-    const { data, setData, post, processing, errors } = useForm<Required<MedicineForm>>({
-        name: '',
-        description: '',
-        dosage: '',
-        manufacturer: '',
-        exp_date: '',
-        price: 0,
-        stock_quantity: 0,
-        category: '',
-        image: null,
-        is_active: true,
+export default function EditMedicine({ medicine }: { medicine: MedicineForm }) {
+    const { data, setData, put, errors, processing, recentlySuccessful } = useForm<Required<MedicineForm>>({
+        id: medicine.id,
+        name: medicine.name,
+        description: medicine.description,
+        dosage: medicine.dosage,
+        manufacturer: medicine.manufacturer,
+        expiry_date: medicine.expiry_date?.toString().split('T')[0], // Format date for input
+        price: medicine.price,
+        stock_quantity: medicine.stock_quantity,
+        category: medicine.category,
+        // image_path: medicine.image_path,
+        is_active: medicine.is_active,
     });
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('medicine.store'), {
-            // preserveScroll: true,
+        put(route('medicine.update', medicine.id), {
+            preserveScroll: true,
             onError: () => console.error(errors),
             onFinish: () => console.log('Form submission finished'),
         });
@@ -53,12 +56,12 @@ export default function AddMedicine() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Add Medicine" />
+            <Head title="Edit Medicine" />
 
             <div className="flex h-full flex-1 flex-col gap-x-4 rounded-xl p-4 overflow-x-auto">
-                <h1 className="text-2xl font-bold">Add Medicine</h1>
-                <p className="text-gray-600 mb-5">Fill in the details of the medicine you want to add.</p>
-
+                <h1 className="text-2xl font-bold">Edit Medicine Page</h1>
+                <p className="text-gray-600 mb-5">This is the edit page for a specific medicine.</p>
+                {/* Add your form or other components here */}
                 <form onSubmit={submit} className="space-y-6">
                     <div className="grid gap-2">
                         <Label htmlFor="name">Name</Label>
@@ -129,12 +132,12 @@ export default function AddMedicine() {
                             id="exp_date"
                             type="date"
                             className="mt-1 block w-full"
-                            value={data.exp_date}
-                            onChange={(e) => setData('exp_date', e.target.value)}
+                            value={data.expiry_date}
+                            onChange={(e) => setData('expiry_date', e.target.value)}
                             required
                         />
 
-                        <InputError className="mt-2" message={errors.exp_date} />
+                        <InputError className="mt-2" message={errors.expiry_date} />
                     </div>
 
                     <div className="grid gap-2">
@@ -185,17 +188,17 @@ export default function AddMedicine() {
                     </div>
 
                     {/* <div className="grid gap-2">
-                        <Label htmlFor="image">Image</Label>
+                    <Label htmlFor="image">Image</Label>
 
-                        <Input
-                            id="image"
-                            type="file"
-                            className="mt-1 block w-full"
-                            onChange={(e) => setData('image', e.target.files ? e.target.files[0] : null)}
-                        />
+                    <Input
+                        id="image"
+                        type="file"
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('image', e.target.files ? e.target.files[0] : null)}
+                    />
 
-                        <InputError className="mt-2" message={errors.image} />
-                    </div> */}
+                    <InputError className="mt-2" message={errors.image} />
+                </div> */}
 
                     <div className="grid gap-2">
                         <Label htmlFor="active">Active</Label>
@@ -212,21 +215,13 @@ export default function AddMedicine() {
                             <label htmlFor="switch-component-on" className="text-white text-sm cursor-pointer">On</label>
                         </div>
 
-                        {/* <Input
-                            id="active"
-                            type="checkbox"
-                            className="mt-1"
-                            checked={data.active}
-                            onChange={(e) => setData('active', e.target.checked)}
-                        /> */}
-
                         <InputError className="mt-2" message={errors.is_active} />
                     </div>
 
                     <div className="flex justify-end">
-                        <Button type="submit" disabled={processing}>Submit</Button>
+                        <Button type="submit" disabled={processing}>Update</Button>
 
-                        {/* <Transition
+                        <Transition
                             show={recentlySuccessful}
                             enter="transition ease-in-out"
                             enterFrom="opacity-0"
@@ -236,10 +231,10 @@ export default function AddMedicine() {
                             leaveTo="opacity-0"
                         >
                             <span className="ml-2 text-green-600">Medicine added successfully!</span>
-                        </Transition> */}
+                        </Transition>
                     </div>
                 </form>
             </div>
         </AppLayout>
-    )
+    );
 }

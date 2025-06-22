@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTitle, DialogTrigger, DialogDescription } from "@/components/ui/dialog";
 import AppLayout from "@/layouts/app-layout";
 import { formatDate } from "@/lib/utils";
 import { BreadcrumbItem } from "@/types";
@@ -74,7 +76,7 @@ export default function Medicine({ medicines }: { medicines: Medicine[] }) {
                             <th className="border border-gray-300 px-1.5">Category</th>
                             <th className="border border-gray-300 px-1.5">Image</th>
                             <th className="border border-gray-300 px-1.5">Active</th>
-                            {/* <th className="border border-gray-300">Action</th> */}
+                            <th className="border border-gray-300">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -109,15 +111,20 @@ export default function Medicine({ medicines }: { medicines: Medicine[] }) {
                                         <label htmlFor="switch-component-on" className="text-white text-sm cursor-pointer">On</label>
                                     </div>
                                 </td>
-                                {/* <td className="border border-gray-300 px-1.5">
+                                <td className="border border-gray-300 px-1.5">
                                     <div className=" flex justify-center items-center gap-2">
                                         <Link prefetch href={"/medicines/" + medicine.id} className="flex items-center">
                                             <Pencil size="20" className="text-blue-400 hover:underline cursor-pointer" />
                                         </Link>
                                         <span>|</span>
-                                        <Trash size="20" className="text-red-400 hover:underline cursor-pointer" />
+                                        <Dialog>
+                                            <DialogTrigger asChild>
+                                                {/* <Trash size="20" className="text-red-400 hover:underline cursor-pointer" />      */}
+                                                <Trash onClick={() => setData({ id: medicine.id })} size="20" className="text-red-400 hover:underline cursor-pointer" />
+                                            </DialogTrigger>
+                                        </Dialog>
                                     </div>
-                                </td> */}
+                                </td>
                             </tr>
                         ))}
                         {medicines.length === 0 && (
@@ -130,6 +137,25 @@ export default function Medicine({ medicines }: { medicines: Medicine[] }) {
                     </tbody>
                 </table>
             </div>
+            {/* Modal for delete confirmation */}
+            <Dialog open={data.id > 0} onOpenChange={closeModal}>
+                <DialogContent>
+                    <DialogTitle className="text-lg font-semibold">Are you sure you want to delete this medicine? </DialogTitle>
+                    <DialogDescription>
+                        This action cannot be undone.
+                    </DialogDescription>
+                    <form onSubmit={deleteMedicine} className="space-y-6">
+
+                        <div className="flex justify-end gap-2">
+                            <Button className="cursor-pointer" type="button" variant="secondary" onClick={closeModal}>Cancel</Button>
+                            <Button className="cursor-pointer" variant="destructive" type="submit" disabled={processing}>
+                                {processing ? "Deleting..." : "Delete Medicine"}
+                            </Button>
+                        </div>
+                    </form>
+                </DialogContent>
+            </Dialog>
+            {/* End of Modal */}
         </AppLayout>
     );
 }
