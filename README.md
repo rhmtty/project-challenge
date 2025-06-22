@@ -6,6 +6,7 @@ Project challenge for educational purposes only
 - Laravel: ^12.0
 - Node.js: ^20.0
 - Composer: 2.8.4
+- MySql
 
 ## Run
 ```bash
