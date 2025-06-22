@@ -30,7 +30,7 @@ export default function Medicine({ medicines }: { medicines: Medicine[] }) {
     // If you want to render the list of medicines,
     // you can map over the `medicines` array and display each medicine's details
     // For now, we will just display a static row as an example.
-    // const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm<Required<{ id: number }>>({ id: 0 });
+    const { data, setData, delete: destroy, processing, reset, errors, clearErrors } = useForm<Required<{ id: number }>>({ id: 0 });
 
     const deleteMedicine: FormEventHandler = (e) => {
         e.preventDefault();
@@ -63,17 +63,17 @@ export default function Medicine({ medicines }: { medicines: Medicine[] }) {
                 <table className="border-collapse border border-gray-400 w-full">
                     <thead>
                         <tr>
-                            <th className="border border-gray-300">No.</th>
-                            <th className="border border-gray-300">Name</th>
-                            <th className="border border-gray-300">Description</th>
-                            <th className="border border-gray-300">dosage</th>
-                            <th className="border border-gray-300">Manufacturer</th>
-                            <th className="border border-gray-300">Exp. Date</th>
-                            <th className="border border-gray-300">Price</th>
-                            <th className="border border-gray-300">Stock Qty</th>
-                            <th className="border border-gray-300">Category</th>
-                            <th className="border border-gray-300">Image</th>
-                            <th className="border border-gray-300">Active</th>
+                            <th className="border border-gray-300 px-1.5">No.</th>
+                            <th className="border border-gray-300 px-1.5">Name</th>
+                            <th className="border border-gray-300 px-1.5">Description</th>
+                            <th className="border border-gray-300 px-1.5">Dosage</th>
+                            <th className="border border-gray-300 px-1.5">Manufacturer</th>
+                            <th className="border border-gray-300 px-1.5">Exp. Date</th>
+                            <th className="border border-gray-300 px-1.5">Price</th>
+                            <th className="border border-gray-300 px-1.5">Stock Qty</th>
+                            <th className="border border-gray-300 px-1.5">Category</th>
+                            <th className="border border-gray-300 px-1.5">Image</th>
+                            <th className="border border-gray-300 px-1.5">Active</th>
                             {/* <th className="border border-gray-300">Action</th> */}
                         </tr>
                     </thead>

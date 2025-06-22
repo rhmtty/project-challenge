@@ -14,7 +14,7 @@ composer install
 php artisan migrate
 composer run dev
 ```
-
+<!-- 
 ## Login
 - Email: tesdemo@gmail.com
-- Pass: 12345678
+- Pass: 12345678 -->
