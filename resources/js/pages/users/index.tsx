@@ -22,9 +22,9 @@ export default function UserList({ users }: { users: User[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="User List" />
-            <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
+            <div className="flex h-full flex-1 flex-col gap-x-4 rounded-xl p-4 overflow-x-auto">
                 <h1 className="text-2xl font-bold">User List</h1>
-                <p className="text-gray-600">This is the user list page.</p>
+                <p className="text-gray-600 mb-5">This is the user list page.</p>
 
                 <div className="overflow-x-auto">
                     <table className="border-collapse border border-gray-400 w-full">
